@@ -1,0 +1,371 @@
+<?xml version='1.0'?>
+<bidi:Schema xmlns:bidi='http://schemas.microsoft.com/windows/2005/03/printing/bidi'>
+	<Property name='Printer'>
+		<Property name='Configuration'>
+<!-- ~~~~~ Memory Queries ~~~~~ -->
+			<!-- "\Printer.Configuration.Memory:Size" Returns integer (Memory size in KB) -->
+			<Property name='Memory'>
+				<Value name='Size' oid='1.3.6.1.4.1.1347.43.5.1.1.11' type='BIDI_INT' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'/>
+			</Property>
+
+			<!-- "\Printer.Configuration.MemoryAlt:Size" Returns integer (Memory size in KB)  *alternate memory query-->
+			<Property name='MemoryAlt'>
+				<Value name='Size' oid='1.3.6.1.4.1.1347.43.5.1.1.11' type='BIDI_INT' refreshInterval='600' drvPrinterEvent='true'/>
+			</Property>
+
+<!-- ~~~~~ Duplex Queries ~~~~~ -->
+			<!-- "\Printer.Configuration.DuplexUnit:Installed" Returns Boolean -->
+			<Property name='DuplexUnit'>
+				 <Installed name='Installed' oid='1.3.6.1.2.1.43.13.4.1.9' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					 <Lookup value='3'/>
+					 <Lookup value='4'/>
+				 </Installed>
+			  </Property>
+
+<!-- ~~~~~ Disk Type Queries ~~~~~ -->
+			<!-- "\Printer.Configuration.HardDisk:Installed" Returns Boolean -->
+			<Property name='HardDisk'>
+				<Installed name='Installed' oid='1.3.6.1.2.1.25.3.2.1.3' deviceIndex='false' refreshInterval='600' drvPrinterEvent='true'>
+					<Lookup value='HDD'/>
+				</Installed>
+			</Property>
+
+			<!-- "\Printer.Configuration.RAMDisk:Installed" Returns Boolean -->
+			<Property name='RAMDisk'>
+				<Installed name='Installed' oid='1.3.6.1.2.1.25.3.2.1.3' deviceIndex='false' refreshInterval='600' drvPrinterEvent='true'>
+					<Lookup value='RAM DISK'/>
+				</Installed>
+			</Property>
+
+<!-- ~~~~~ Memory Device Queries ~~~~~ -->
+			<!-- "\Printer.Configuration.SDCard:Installed" Returns Boolean -->
+			<Property name='SDCard'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.20.1.1.2.1' deviceIndex='false' refreshInterval='600' drvPrinterEvent='true'>
+					<Lookup value='9'/>
+				</Installed>
+			</Property>
+		</Property>
+
+		<Property name='Layout'>
+			<Property name='InputBin'>
+<!-- ~~~~~ Paper Feeder Queries ~~~~~ -->
+			<!-- "\Printer.Layout.InputBin.500Cassette:Installed" Returns Boolean -->
+				<Property name='500Cassette'>
+					<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<!-- List all 500 sheet Cassette model numbers -->
+						<Lookup value='PF-470'/>
+						<Lookup value='PF-780'/>
+					</Installed>
+				</Property>
+
+				<!-- "\Printer.Layout.InputBin.Dual500Cassette:Installed" Returns Boolean -->
+				<Property name='Dual500Cassette'>
+					<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<!-- List all 500 sheet x 2 Cassette model numbers -->
+						<Lookup value='PF-710'/>
+						<Lookup value='PF-70'/>
+						<Lookup value='PF-700'/>
+						<Lookup value='PF-670'/>
+						<Lookup value='PF-720'/>
+						<Lookup value='PF-720(B)'/>
+						<Lookup value='PF-680'/>
+						<Lookup value='PF-471'/>
+						<Lookup value='PF-730'/>
+					</Installed>
+				</Property>
+
+				<!-- "\Printer.Layout.InputBin.Dual1500Cassette:Installed" Returns Boolean -->
+				<Property name='Dual1500Cassette'>
+					<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<!-- List all 1500 sheet x 2 Cassette model numbers -->
+						<Lookup value='PF-740'/>
+					</Installed>
+				</Property>
+				
+
+				<!-- "\Printer.Layout.InputBin.LargeCapacityCassette:Installed" Returns Boolean -->
+				<Property name='LargeCapacityCassette'>
+					<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<!-- List all 3000 sheet Cassette model numbers -->
+						<Lookup value='PF-750'/>
+						<Lookup value='PF-75'/>
+						<Lookup value='PF-760'/>
+						<Lookup value='PF-760(B)'/>
+					</Installed>
+				</Property>
+
+				<!-- "\Printer.Layout.InputBin.SideFeeder:Installed" Returns Boolean -->
+				<Property name='SideFeeder'>
+					<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<!-- List all Side Feeder model numbers -->
+						<Lookup value='PF-650'/>
+						<Lookup value='PF-770'/>
+					</Installed>
+				</Property>
+
+				<!-- "\Printer.Layout.InputBin.LargePaperSideFeeder:Installed" Returns Boolean -->
+				<Property name='LargePaperSideFeeder'>
+					<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<!-- List all Large-paper Side Feeder model numbers -->
+						<Lookup value='PF-660'/>
+					</Installed>
+				</Property>
+
+				<!-- "\Printer.Layout.InputBin.MPTray:Replaced" Returns Boolean -->
+				<Property name='MPTray'>
+					<Installed name='Replaced' oid='1.3.6.1.2.1.43.8.2.1.18' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<!-- List up all paper feeders that would replace MPTray here -->
+						<Lookup value='Envelope Feeder'/>
+						<Lookup value='Bulk Feeder'/>
+					</Installed>
+				</Property>
+
+				<!-- "\Printer.Layout.InputBin.EnvelopeFeeder:Installed" Returns Boolean -->
+				<Property name='EnvelopeFeeder'>
+					<Installed name='Installed' oid='1.3.6.1.2.1.43.8.2.1.18' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<Lookup value='Envelope Feeder'/>
+					</Installed>
+				</Property>
+
+				<!-- "\Printer.Layout.InputBin.BulkFeeder:Installed" Returns Boolean -->
+				<Property name='BulkFeeder'>
+					<Installed name='Installed' oid='1.3.6.1.2.1.43.8.2.1.18' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<Lookup value='Bulk Feeder'/>
+					</Installed>
+				</Property>
+
+				<!-- "\Printer.Layout.InputBin.CassetteTwo:Installed" Returns Boolean -->
+				<Property name='CassetteTwo'>
+					<Installed name='Installed' oid='1.3.6.1.2.1.43.8.2.1.18' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<Lookup value='Cassette 2'/>
+					</Installed>
+				</Property>	
+
+				<!-- "\Printer.Layout.InputBin.CassetteThree:Installed" Returns Boolean -->
+				<Property name='CassetteThree'>
+					<Installed name='Installed' oid='1.3.6.1.2.1.43.8.2.1.18' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<Lookup value='Cassette 3'/>
+					</Installed>
+				</Property>
+
+				<!-- "\Printer.Layout.InputBin.CassetteFour:Installed" Returns Boolean -->
+				<Property name='CassetteFour'>
+					<Installed name='Installed' oid='1.3.6.1.2.1.43.8.2.1.18' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<Lookup value='Cassette 4'/>
+					</Installed>
+				</Property>
+
+				<!-- "\Printer.Layout.InputBin.CassetteFive:Installed" Returns Boolean -->
+				<Property name='CassetteFive'>
+					<Installed name='Installed' oid='1.3.6.1.2.1.43.8.2.1.18' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<Lookup value='Cassette 5'/>
+					</Installed>
+				</Property>
+
+				<!-- "\Printer.Layout.InputBin.CassetteSix:Installed" Returns Boolean -->
+				<Property name='CassetteSix'>
+					<Installed name='Installed' oid='1.3.6.1.2.1.43.8.2.1.18' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<Lookup value='Cassette 6'/>
+					</Installed>
+				</Property>
+			</Property>
+		</Property>
+
+		<Property name='Finishing'>
+<!-- ~~~~~ Document Finisher Queries ~~~~~ -->
+			<!-- "\Printer.Finishing.4000Finisher:Installed" Returns Boolean -->
+			<Property name='4000Finisher'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					<!-- List all 4000 Sheet Finisher model numbers -->
+					<Lookup value='DF-790'/>
+				</Installed>
+			</Property>
+
+			<!-- "\Printer.Finishing.3000Finisher:Installed" Returns Boolean -->
+			<Property name='3000Finisher'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					<!-- List all 3000 Sheet Finisher model numbers -->
+					<Lookup value='DF-71U'/>
+					<Lookup value='DF-71E'/>
+					<Lookup value='DF-71J'/>
+					<Lookup value='DF-710'/>
+					<Lookup value='DF-35'/>
+					<Lookup value='DF-760'/>
+					<Lookup value='DF-760(B)'/>
+				</Installed>
+			</Property>
+
+			<!-- "\Printer.Finishing.1000Finisher:Installed" Returns Boolean -->
+			<Property name='1000Finisher'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					<!-- List all 1000 Sheet Finisher model numbers -->
+					<Lookup value='DF-73'/>
+					<Lookup value='DF-730'/>
+					<Lookup value='DF-780'/>
+					<Lookup value='DF-780(B)'/>
+					<Lookup value='DF-770'/>
+				</Installed>
+			</Property>
+		 
+		 <!-- "\Printer.Finishing.500Finisher:Installed" Returns Boolean -->
+			<Property name='500Finisher'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					<!-- List all 500 Sheet Finisher model numbers -->
+					<Lookup value='DF-470'/>
+				</Installed>
+			</Property>
+
+			<!-- "\Printer.Finishing.BookletStitcher:Installed" Returns Boolean -->
+			<Property name='BookletStitcher'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					<!-- List all Booklet Stitcher Finisher model numbers -->
+					<Lookup value='DF-75'/>
+				</Installed>
+			</Property>
+
+			<!-- "\Printer.Finishing.InnerFinisher:Installed" Returns Boolean -->
+			<Property name='InnerFinisher'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					<!-- List all Inner Finisher model numbers -->
+					<Lookup value='DF-720'/>
+					<Lookup value='DF-78'/>
+					<Lookup value='DF-410'/>
+					<Lookup value='DF-670'/>
+					<Lookup value='DF-420'/>
+					<Lookup value='DF-720(B)'/>
+					<Lookup value='DF-670(B)'/>
+				</Installed>
+			</Property>
+
+			<!-- "\Printer.Finishing.MuliTrayFinisher:Installed" Returns Boolean -->
+			<Property name='MuliTrayFinisher'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					<!-- List all Multi-tray Finisher model numbers -->
+					<Lookup value='DF-650'/>
+				</Installed>
+			</Property>
+
+<!-- ~~~~~ Hole Punch Unit Queries ~~~~~ -->
+			<!-- "\Printer.Finishing.PunchingUnit:Installed" This Belongs to KPDL Returns Boolean -->
+			<Property name='PunchingUnit'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.9.4.1.4' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					<Lookup value='US'/>
+					<Lookup value='EU'/>
+					<Lookup value='FR'/>
+					<Lookup value='JP'/>
+					<Lookup value='SE'/>
+				</Installed>
+			</Property>
+
+			<!-- "\Printer.Finishing.PunchUnitMain:Installed" Returns Boolean -->
+			<Property name='PunchUnitMain'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.9.4.1.2' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					<Lookup value='main'/>
+				</Installed>
+			</Property>
+
+			<!-- "\Printer.Finishing.PunchUnitSub:Installed" Returns Boolean -->
+			<Property name='PunchUnitSub'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.9.4.1.2' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					<Lookup value='sub'/>
+				</Installed>
+			</Property>
+
+			<!-- "\Printer.Finishing.Punch23Unit:Installed" Returns Boolean -->
+			<Property name='Punch23Unit'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.9.4.1.4' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					<Lookup value='US'/>
+				</Installed>
+			</Property>
+
+			<!-- "\Printer.Finishing.Punch2Unit:Installed" Returns Boolean -->
+			<Property name='Punch2Unit'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.9.4.1.4' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					<Lookup value='JP'/>
+				</Installed>
+			</Property>
+
+			<!-- "\Printer.Finishing.Punch24Unit:Installed" Returns Boolean -->
+			<Property name='Punch24Unit'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.9.4.1.4' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					<Lookup value='EU'/>
+					<Lookup value='FR'/>
+				</Installed>
+			</Property>
+
+			<!-- "\Printer.Finishing.Punch4Unit:Installed" Returns Boolean -->
+			<Property name='Punch4Unit'>
+				<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.9.4.1.4' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+					<Lookup value='SE'/>
+				</Installed>
+			</Property>
+
+			<Property name='OutputBin'>
+<!-- ~~~~~ Mailbox / Multi Tray Queries ~~~~~ -->
+				<!-- "\Printer.Finishing.OutputBin.Mailbox:Installed" Returns Boolean -->
+				<Property name='Mailbox'>
+					<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<!-- List all Mailbox / Multi Tray model numbers -->
+						<Lookup value='M-2107'/>
+						<Lookup value='MT-710'/>
+						<Lookup value='MT-1'/>
+						<Lookup value='MB-720'/>
+						<Lookup value='MT-720'/>
+						<Lookup value='MT-720(B)'/>
+						<Lookup value='MT-730'/>
+					</Installed>
+				</Property>
+
+<!-- ~~~~~ Job Separator Queries ~~~~~ -->
+				<!-- "\Printer.Finishing.OutputBin.JobSeparator:Installed" Returns Boolean -->
+				<Property name='JobSeparator'>
+					<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<!-- List all Job Separator model numbers -->
+						<Lookup value='JS-710'/>
+						<Lookup value='JS-700'/>
+						<Lookup value='J-1402'/>
+						<Lookup value='JS-410'/>
+						<Lookup value='JS-670'/>
+						<Lookup value='JS-720'/>
+						<Lookup value='JS-420'/>
+						<Lookup value='JS-700(B)'/>
+						<Lookup value='JS-710(B)'/>
+						<Lookup value='JS-670(B)'/>
+						<Lookup value='JS-720(B)'/>
+					</Installed>
+				</Property>
+
+				<!-- "\Printer.Finishing.OutputBin.InnerJobSeparator:Installed" Returns Boolean -->
+				<Property name='InnerJobSeparator'>
+					<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<!-- List all Inner Job Separator model numbers -->
+						<Lookup value='JS-730'/>
+						<Lookup value='JS-732'/>
+					</Installed>
+				</Property>
+
+				<!-- "\Printer.Finishing.OutputBin.RightJobSeparator:Installed" Returns Boolean -->
+				<Property name='RightJobSeparator'>
+					<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<!-- List all Right Job Separator (a.k.a. "Right Tray") model numbers -->
+						<Lookup value='JS-731'/>
+					</Installed>
+				</Property>
+
+<!-- ~~~~~ Booklet Folder Queries ~~~~~ -->
+				<!-- "\Printer.Finishing.OutputBin.BookletFolder:Installed" Returns Boolean -->
+				<Property name='BookletFolder'>
+					<Installed name='Installed' oid='1.3.6.1.4.1.1347.43.23.1.1.3' deviceIndex='true' refreshInterval='600' drvPrinterEvent='true'>
+						<!-- List all Booklet Folder model numbers -->
+						<Lookup value='BF-710'/>
+						<Lookup value='BF-1'/>
+						<Lookup value='BF-720'/>
+						<Lookup value='BF-720(B)'/>
+						<Lookup value='BF-730'/>
+					</Installed>
+				</Property>
+
+			</Property>
+		</Property>
+	</Property>
+</bidi:Schema>

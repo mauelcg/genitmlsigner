@@ -1,0 +1,48 @@
+[Yesterday 3:32 PM] Adrian Dela Piedra
+
+"C:\P4\BuildAutomationProduction\depot\Projects\CDROM\CD Automation\KDDP CD Team OTP\file-signer\kyofilesigner\tools\inf2cat\Inf2Cat.exe" /driver:"C:\P4\BuildAutomationProduction\depot\Projects\CDROM\Unverified\Libra2\KM\Contents\PrnDrv\PCLDriver" /os:"8_X64,7_X64,6_3_X64,Server2008R2_X64,Server2008_X64,Server8_X64,Server6_3_X64,10_X64,SERVER2016_X64,10_AU_X64,Server10_X64,10_RS2_X64,10_RS3_X64,10_RS4_X64,ServerRS5_X64,10_RS5_X64,10_19H1_X64,10_VB_X64,ServerFE_X64,10_CO_X64,10_NI_X64" /uselocaltime
+
+
+[Yesterday 3:36 PM] Adrian Dela Piedra
+
+kani na function pangcreate catalog file  di na nako magamit  untested pana pero murag mao2 na guro na
+
+[Yesterday 3:37 PM] Adrian Dela Piedra
+
+[Yesterday 3:37 PM] Adrian Dela Piedra
+
+naggamit diay na ug ini-parser na package icheck lang sa nuget
+
+[Yesterday 3:47 PM] Adrian Dela Piedra
+
+client -> signtool sign /dg temp /f ta-cert.cer /fd sha256 KmInst64.exe
+
+server -> signtool sign /ds /sha1 d665b9e4ff59c97fc2ac62fafd98eb2b6f13bfda /fd sha256 temp\KmInst64.exe.dig
+
+Kyocera_TA5
+
+client -> signtool sign /di temp KmInst64.exe
+
+client -> signtool timestamp /tr http://timestamp.digicert.com /td sha256 KmInst64.exe
+
+[Yesterday 9:26 PM] Adrian Dela Piedra
+
+nadeploy na nya nako ari ang API:
+
+https://kyofilesigner:7777/swagger/index.html
+
+[Yesterday 9:28 PM] Adrian Dela Piedra
+
+admin:
+
+  username: adrian.delapiedra@ddp.kyocera.com
+
+  password: M3k@ni$m
+
+ 
+
+normal:
+
+  username: normaluser@ddp.kyocera.com
+
+  password: M3k@ni$m

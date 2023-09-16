@@ -1,0 +1,176 @@
+;================================================================
+;
+;  OEMSETUP.INF (PCLDriver)
+;
+;  Kyocera PCL Mini-Driver Installation Script
+;  Windows 10, 11
+;  Windows Server 2016, 2019, 2022
+;  Languages: English, French, German, Italian, Korean,
+;             Portuguese, and Spanish
+;  Plug & Play Version
+;
+;  (C) 2023 KYOCERA Document Solutions Inc.
+;
+;================================================================
+
+;----------------------------------------------------------------
+; Version Section
+;----------------------------------------------------------------
+;
+[Version]
+Signature  = "$Windows NT$"
+Class      = Printer
+ClassGUID  = {4D36E979-E325-11CE-BFC1-08002BE10318}
+Provider   = "KYOCERA Document Solutions Inc."
+CatalogFile=KYOCERA.CAT
+DriverVer  = 03/29/2023,1.3
+DriverIsolation=2
+
+;
+; Manufacturer section.
+;
+; This section lists all of the manufacturers
+; that we will display in the Dialog box
+;
+[Manufacturer]
+"Kyocera"=Kyocera,NTx86.6.0,NTamd64.6.0,NTia64.6.0
+
+;
+; Model sections.
+;
+; Each section here corresponds with an entry listed in the
+; [Manufacturer] section, above. The models will be displayed in the order
+; that they appear in the INF file.
+;
+
+[Kyocera.NTx86.6.0]
+"Kyocera ECOSYS MA4000wifx"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_MA4000B156
+"Kyocera ECOSYS MA4000wifx"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_MA4000B156
+
+"Kyocera ECOSYS MA4000wfx"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_MA4000AF41
+"Kyocera ECOSYS MA4000wfx"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_MA4000AF41
+
+"Kyocera ECOSYS MA4000fx"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_MA40001A60
+"Kyocera ECOSYS MA4000fx"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_MA40001A60
+
+"Kyocera ECOSYS MA4000x"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_MA400028DF
+"Kyocera ECOSYS MA4000x"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_MA400028DF
+
+"Kyocera ECOSYS PA4000x"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_PA40002912
+"Kyocera ECOSYS PA4000x"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_PA40002912
+
+"Kyocera ECOSYS PA4000wx"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_PA4000DFAC
+"Kyocera ECOSYS PA4000wx"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_PA4000DFAC
+
+[Kyocera.NTamd64.6.0]
+"Kyocera ECOSYS MA4000wifx"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_MA4000B156
+"Kyocera ECOSYS MA4000wifx"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_MA4000B156
+
+"Kyocera ECOSYS MA4000wfx"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_MA4000AF41
+"Kyocera ECOSYS MA4000wfx"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_MA4000AF41
+
+"Kyocera ECOSYS MA4000fx"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_MA40001A60
+"Kyocera ECOSYS MA4000fx"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_MA40001A60
+
+"Kyocera ECOSYS MA4000x"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_MA400028DF
+"Kyocera ECOSYS MA4000x"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_MA400028DF
+
+"Kyocera ECOSYS PA4000x"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_PA40002912
+"Kyocera ECOSYS PA4000x"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_PA40002912
+
+"Kyocera ECOSYS PA4000wx"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_PA4000DFAC
+"Kyocera ECOSYS PA4000wx"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_PA4000DFAC
+
+[Kyocera.NTia64.6.0]
+"Kyocera ECOSYS MA4000wifx"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_MA4000B156
+"Kyocera ECOSYS MA4000wifx"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_MA4000B156
+
+"Kyocera ECOSYS MA4000wfx"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_MA4000AF41
+"Kyocera ECOSYS MA4000wfx"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_MA4000AF41
+
+"Kyocera ECOSYS MA4000fx"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_MA40001A60
+"Kyocera ECOSYS MA4000fx"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_MA40001A60
+
+"Kyocera ECOSYS MA4000x"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_MA400028DF
+"Kyocera ECOSYS MA4000x"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_MA400028DF
+
+"Kyocera ECOSYS PA4000x"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_PA40002912
+"Kyocera ECOSYS PA4000x"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_PA40002912
+
+"Kyocera ECOSYS PA4000wx"		= ECMA4000.6.0,USBPRINT\KyoceraECOSYS_PA4000DFAC
+"Kyocera ECOSYS PA4000wx"		= ECMA4000.6.0,WSDPRINT\KyoceraECOSYS_PA4000DFAC
+;
+; Installer Sections
+;
+; These sections control file installation, and reference all files that
+; need to be copied. The section name will be assumed to be the driver
+; file, unless there is an explicit DriverFile section listed.
+;
+
+[ECMA4000.6.0]
+CopyFiles=@ECMA4000.GPD,Resources
+CopyFiles=AutoConfig,@ECMA4000.GDL
+DataFile=ECMA4000.GPD
+CoreDriverSections="{D20EA372-DD35-4950-9ED8-A6335AFE79F0},UNIDRV_BIDI.OEM,UNIDRV_BIDI_DATA,TTFSUB.OEM"
+
+
+; Copy Sections
+;
+; Lists of files that are actually copied. These sections are referenced
+; from the installer sections, above. Only create a section if it contains
+; two or more files (if we only copy a single file, identify it in the
+; installer section, using the @filename notation) or if it's a color
+; profile (since the DestinationDirs can only handle sections, and not
+; individual files).
+
+[Resources]
+kyfont4.dll
+kyres14.dll
+
+[AutoConfig]
+kyauto09.ini
+kyqury09.xml
+
+[PrinterPackageInstallation.x86]
+PackageAware=TRUE
+CoreDriverDependencies={D20EA372-DD35-4950-9ED8-A6335AFE79F0}
+
+[PrinterPackageInstallation.amd64]
+PackageAware=TRUE
+CoreDriverDependencies={D20EA372-DD35-4950-9ED8-A6335AFE79F0}
+
+[PrinterPackageInstallation.ia64]
+PackageAware=TRUE
+CoreDriverDependencies={D20EA372-DD35-4950-9ED8-A6335AFE79F0}
+
+;
+; Call SetupSetDirectoryId with 66000 to set the target directory at runtime
+; (depending on which environment drivers are getting installed)
+;
+
+[DestinationDirs]
+DefaultDestDir=66000
+
+[SourceDisksNames.x86]
+1 = %Disk1%,,,""
+
+[SourceDisksNames.amd64]
+1 = %Disk1%,,,""
+
+[SourceDisksNames.ia64]
+1 = %Disk1%,,,""
+
+[SourceDisksFiles]
+ECMA4000.gdl	= 1
+ECMA4000.gpd	= 1
+kyfont4.dll		= 1
+kyres14.dll		= 1
+kyauto09.ini 	= 1
+kyqury09.xml	= 1
+
+;
+; Localizable Strings
+;
+
+[Strings]
+Disk1 = "Kyocera CD-ROM"

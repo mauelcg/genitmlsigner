@@ -1,0 +1,1 @@
+dotnet run sign "D:\Workspace\C#\Genita\KyoFileSignerCLI\Resources\dirtest" --email  adrian.delapiedra@ddp.kyocera.com --password  M3k@ni$m --certificate 1 --description "This is a signing test."

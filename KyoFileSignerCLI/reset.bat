@@ -1,0 +1,1 @@
+rmdir /s /q Output && dotnet clean && dotnet build && dotnet run && del TestFolderOutput && del TestFolderOutput.zip

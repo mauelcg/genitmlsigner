@@ -1,0 +1,2050 @@
+*%*********************************************************************************
+*%                                                                                *
+*% (C) 2023 KYOCERA Document Solutions Inc.                                       *
+*%                                                                                *
+*%*********************************************************************************
+*GPDSpecVersion: "1.1"
+*GPDFileName: "ECMA4000.gpd"
+*GPDFileVersion: "1.3"
+*Include: "StdNames.gpd"
+*Include: "ttfsub.gpd"
+*ModelName: "Kyocera ECOSYS MA4000wifx"
+*MasterUnits: PAIR(600, 600)
+*ResourceDLL: "kyres14.dll"
+*PrintRate: 40
+*PrintRatePPM: 40
+*PrintRateUnit: PPM
+*PrinterType: PAGE
+*MaxCopies: 999
+
+*Ifdef: WINNT_60
+*PrintSchemaPrivateNamespaceURI: "http://schemas.kyocera.com/printer/MiniDriver/v_1_0_"
+*BidiQueryFile: "ECMA4000.gdl"
+*Endif: WINNT_60
+
+*%*********************************************************************************
+*%                                    UI Order                                    *
+*%*********************************************************************************
+*% Advanced Features
+*Feature: EcoPrint {}
+*Feature: KIR {}
+*Ifdef: WINNT_51
+*Feature: GraphicsMode {}
+*Endif:
+*Feature: PrintDensity {}
+*Feature: JobRetention {}
+*Feature: JobRetentionUserID {}
+*Feature: JobAccountID {}
+*% Device Settings
+*Feature: CassetteTwo {}
+*Feature: CassetteThree {}
+*Feature: RAMDisk {}
+*Feature: SDCard {}
+
+*%*********************************************************************************
+*%                                Other DLL(s)                                    *
+*%*********************************************************************************
+*Feature: RESDLL
+{
+    *Option: KyoFonts2
+    {
+        *Name: "kyfont4.dll"
+    }
+}
+
+*%*********************************************************************************
+*%                               Constraint Macros                                *
+*%*********************************************************************************
+*BlockMacro: EnvelopePapers
+{
+	*Constraints: LIST(PaperSize.ENV_MONARCH,PaperSize.ENV_10,
++		PaperSize.ENV_9,PaperSize.ENV_PERSONAL,PaperSize.ENV_C5,PaperSize.ENV_DL)
+}
+*BlockMacro: MediaConstraints
+{
+	*Constraints: LIST(MediaType.Transparency,MediaType.Label,
++		MediaType.CardStock,MediaType.EnvelopePlain)
+}
+*BlockMacro: DefaultCassette
+{
+	*% Paper sizes
+	*InsertBlock: =EnvelopePapers
+	*Constraints: LIST(PaperSize.B6_JIS)
+	*% Media types
+	*InsertBlock: =MediaConstraints
+}
+*BlockMacro: DuplexConstraints
+{
+	*% Paper sizes
+	*InsertBlock: =EnvelopePapers
+	*Constraints: LIST(PaperSize.A6,
++		PaperSize.B6_JIS,PaperSize.A6)
+	*% Media types
+	*InsertBlock: =MediaConstraints
+}
+
+*%*********************************************************************************
+*%                                   Orientation                                  *
+*%*********************************************************************************
+*Feature: Orientation
+{
+	*rcNameID: =ORIENTATION_DISPLAY
+	*DefaultOption: PORTRAIT
+	*Option: PORTRAIT
+	{
+		*rcNameID: =PORTRAIT_DISPLAY
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.1
+			*NoPageEject?: TRUE
+			*Cmd: "<1B>&l0o1E"
+		}
+	}
+	*Option: LANDSCAPE_CC90
+	{
+		*rcNameID: =LANDSCAPE_DISPLAY
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.1
+			*NoPageEject?: TRUE
+			*Cmd: "<1B>&l1o1E"
+		}
+	}
+}
+
+*%*********************************************************************************
+*%                                   Duplexing                                    *
+*%*********************************************************************************
+*Feature: Duplex
+{
+	*rcNameID: =TWO_SIDED_PRINTING_DISPLAY
+	*DefaultOption: NONE
+	*Option: NONE
+	{
+		*rcNameID: =NONE_DISPLAY
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.2
+			*Cmd: "<1B>&l0S"
+		}
+	}
+	*Option: VERTICAL
+	{
+		*rcNameID: =FLIP_ON_LONG_EDGE_DISPLAY
+		*InsertBlock: =DuplexConstraints
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.2
+			*Cmd: "<1B>&l1S"
+		}
+	}
+	*Option: HORIZONTAL
+	{
+		*rcNameID: =FLIP_ON_SHORT_EDGE_DISPLAY
+		*InsertBlock: =DuplexConstraints
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.2
+			*Cmd: "<1B>&l2S"
+		}
+	}
+}
+
+*%*********************************************************************************
+*%                                   Paper Source                                 *
+*%*********************************************************************************
+*Feature: InputBin
+{
+	*rcNameID: =PAPER_SOURCE_DISPLAY
+	*DefaultOption: Auto
+	*Option: Auto
+	{
+		*rcNameID: =AUTO_DISPLAY
+		*OptionID: 257
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.3
+			*Cmd: "!R!PSRC100;EXIT;"
+		}
+	}
+	*Option: Cassette
+	{
+		*rcNameID: 258
+		*OptionID: 258
+		*InsertBlock: =DefaultCassette
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.3
+			*Cmd: "!R!PSRC1;EXIT;"
+		}
+	}
+	*Option: Cassette2
+	{
+		*rcNameID: 259
+		*OptionID: 259
+		*InsertBlock: =DefaultCassette
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.3
+			*Cmd: "!R!PSRC2;EXIT;"
+		}
+	}
+	*Option: Cassette3
+	{
+		*rcNameID: 260
+		*OptionID: 260
+		*InsertBlock: =DefaultCassette
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.3
+			*Cmd: "!R!PSRC3;EXIT;"
+		}
+	}
+	*Option: MANUAL
+	{
+		*rcNameID: 276
+		*OptionID: 4
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.3
+			*Cmd: "!R!PSRC0;EXIT;"
+		}
+	}
+}
+
+*%*********************************************************************************
+*%                                   Media Type                                   *
+*%*********************************************************************************
+*Feature: MediaType
+{
+	*rcNameID: =MEDIA_TYPE_DISPLAY
+	*DefaultOption: Unspecified
+	*Option: Unspecified
+	{
+		*rcNameID: 518
+		*OptionID: 324
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP99;EXIT;"
+		}
+	}
+	*Option: AutoSelect
+	{
+		*rcNameID: =AUTO_DISPLAY
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP0;EXIT;"
+		}
+	}
+	*Option: Plain
+	{
+		*rcNameID: 501
+		*OptionID: 300
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP1;EXIT;"
+		}
+	}
+	*Option: Transparency
+	{
+		*rcNameID: 502
+		*OptionID: 301
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP2;EXIT;"
+		}
+	}
+	*Option: PrePrinted
+	{
+		*rcNameID: 503
+		*OptionID: 302
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP3;EXIT;"
+		}
+	}
+	*Option: Label
+	{
+		*rcNameID: 505
+		*OptionID: 303
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP4;EXIT;"
+		}
+	}
+	*Option: Bond
+	{
+		*rcNameID: 504
+		*OptionID: 304
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP5;EXIT;"
+		}
+	}
+	*Option: Recycled
+	{
+		*rcNameID: 506
+		*OptionID: 305
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP6;EXIT;"
+		}
+	}
+	*Option: Vellum
+	{
+		*rcNameID: 512
+		*OptionID: 306
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP7;EXIT;"
+		}
+	}
+	*Option: Rough
+	{
+		*rcNameID: 507
+		*OptionID: 307
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP8;EXIT;"
+		}
+	}
+	*Option: Letterhead
+	{
+		*rcNameID: 508
+		*OptionID: 308
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP9;EXIT;"
+		}
+	}
+	*Option: Color
+	{
+		*rcNameID: 509
+		*OptionID: 309
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP10;EXIT;"
+		}
+	}
+	*Option: PrePunched
+	{
+		*rcNameID: 513
+		*OptionID: 310
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP11;EXIT;"
+		}
+	}
+	*Option: EnvelopePlain
+	{
+		*rcNameID: 510
+		*OptionID: 311
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP12;EXIT;"
+		}
+	}
+	*Option: CardStock
+	{
+		*rcNameID: 511
+		*OptionID: 312
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP13;EXIT;"
+		}
+	}
+	*Option: Thick
+	{
+		*rcNameID: 514
+		*OptionID: 313
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP16;EXIT;"
+		}
+	}
+	*Option: FinePaper
+	{
+		*rcNameID: 515
+		*OptionID: 322
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP17;EXIT;"
+		}
+	}
+	*Option: Custom1
+	{
+		*rcNameID: 531
+		*OptionID: 314
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP21;EXIT;"
+		}
+	}
+	*Option: Custom2
+	{
+		*rcNameID: 532
+		*OptionID: 315
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP22;EXIT;"
+		}
+	}
+	*Option: Custom3
+	{
+		*rcNameID: 533
+		*OptionID: 316
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP23;EXIT;"
+		}
+	}
+	*Option: Custom4
+	{
+		*rcNameID: 534
+		*OptionID: 317
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP24;EXIT;"
+		}
+	}
+	*Option: Custom5
+	{
+		*rcNameID: 535
+		*OptionID: 318
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP25;EXIT;"
+		}
+	}
+	*Option: Custom6
+	{
+		*rcNameID: 536
+		*OptionID: 319
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP26;EXIT;"
+		}
+	}
+	*Option: Custom7
+	{
+		*rcNameID: 537
+		*OptionID: 320
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP27;EXIT;"
+		}
+	}
+	*Option: Custom8
+	{
+		*rcNameID: 538
+		*OptionID: 321
+		*Command: CmdSelect
+		{
+			*Order: DOC_SETUP.4
+			*Cmd: "!R!MTYP28;EXIT;"
+		}
+	}
+}
+
+*%*********************************************************************************
+*%                    Graphic Mode (Only for WinXP and higher)                    *
+*%*********************************************************************************
+*Ifdef: WINNT_51
+*Personality: =PERSONALITY_HPGL2
+*Feature: GraphicsMode
+{
+	*rcNameID: =GRAPHICSMODE_DISPLAY
+	*FeatureType: DOC_PROPERTY
+	*DefaultOption: RASTERMODE
+	*Option: HPGL2MODE
+	{
+		*rcNameID: =GRAPHICSMODE_HPGL2_DISPLAY
+	}
+	*Option: RASTERMODE
+	{
+		*rcNameID: =GRAPHICSMODE_RASTER_DISPLAY
+	}
+}
+*Endif:
+
+*%*********************************************************************************
+*%                                   Resolution                                   *
+*%*********************************************************************************
+*Feature: Resolution
+{
+	*rcNameID: =RESOLUTION_DISPLAY
+	*DefaultOption: Resolution600
+	*Option: Resolution600
+	{
+		*Name: "600 "=DOTS_PER_INCH
+		*DPI: PAIR(600, 600)
+		*TextDPI: PAIR(600, 600)
+		*MinStripBlankPixels: 32
+		EXTERN_GLOBAL: *StripBlanks: LIST(ENCLOSED,TRAILING)
+		*SpotDiameter: 100
+		*Command: CmdBeginRaster { *Cmd : "<1B>*r1A" }
+		*Command: CmdEndRaster { *Cmd : "<1B>*rB" }
+		*Command: CmdSendBlockData { *Cmd : "<1B>*b" %d{NumOfDataBytes}"W" }
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.30
+			*Cmd: "@PJL SET RESOLUTION=600<0D0A>@PJL SET KRESOLUTIONCONVERSION=OFF<0D0A>@PJL SET BITSPERPIXEL=1<0D0A>@PJL ENTER LANGUAGE = PCL"
++				"<0D0A1B>E<1B>*t600R<1B>&u600D<1B>*r0F<0D0A>"
+		}
+	}
+	*Option: 300dpi
+	{
+		*Name: "300 "=DOTS_PER_INCH
+		*DPI: PAIR(300, 300)
+		*TextDPI: PAIR(300, 300)
+		*MinStripBlankPixels: 32
+		EXTERN_GLOBAL: *StripBlanks: LIST(ENCLOSED,TRAILING)
+		*SpotDiameter: 100
+		*Command: CmdBeginRaster { *Cmd : "<1B>*r1A" }
+		*Command: CmdEndRaster { *Cmd : "<1B>*rB" }
+		*Command: CmdSendBlockData { *Cmd : "<1B>*b" %d{NumOfDataBytes}"W" }
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.30
+			*Cmd: "@PJL SET RESOLUTION=300<0D0A>@PJL SET KRESOLUTIONCONVERSION=OFF<0D0A>@PJL SET BITSPERPIXEL=1<0D0A>@PJL ENTER LANGUAGE = PCL"
++				"<0D0A1B>E<1B>*t300R<1B>&u600D<1B>*r0F<0D0A>"
+		}
+	}
+}
+
+*%*********************************************************************************
+*%                                   Paper Size                                   *
+*%*********************************************************************************
+*Feature: PaperSize
+{
+	*rcNameID: =PAPER_SIZE_DISPLAY
+	*DefaultOption: LETTER
+	*Option: ENV_MONARCH
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 4109
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(2018, 4200)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz1;stm0;exit;<1B>*p0x0Y<1B>*c0t2429x5160Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(2028, 4200)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 4381)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz1;stm0;exit;<1B>*p0x0Y<1B>*c0t5117x2554Y"
+				}
+			}
+		}
+	}
+	*Option: ENV_10	*% Envelope Business
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 4109
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(2168, 5400)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz2;stm0;exit;<1B>*p0x0Y<1B>*c0t2614x6605Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(2178, 5400)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 5581)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz2;stm0;exit;<1B>*p0x0Y<1B>*c0t6557x2734Y"
+				}
+			}
+		}
+	}
+	*Option: ENV_DL
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 4109
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(2298, 4896)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz3;stm0;exit;<1B>*p0x0Y<1B>*c0t2782x6000Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(2298, 4896)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 5077)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz3;stm0;exit;<1B>*p0x0Y<1B>*c0t5952x2878Y"
+				}
+			}
+		}
+	}
+	*Option: ENV_C5
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 4109
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(3528, 5112)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz4;stm0;exit;<1B>*p0x0Y<1B>*c0t4250x6252Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(3528, 5112)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 5293)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz4;stm0;exit;<1B>*p0x0Y<1B>*c0t6211x4356Y"
+				}
+			}
+		}
+	}
+	*Option: EXECUTIVE
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 4109
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(4050, 6030)
+				*PrintableOrigin: PAIR(150, 120)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz5;stm0;exit;<1B>*p0x0Y<1B>*c0t4865x7325Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(4050, 6000)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 6181)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz5;stm0;exit;<1B>*p0x0Y<1B>*c0t7277x4980Y"
+				}
+			}
+		}
+	}
+	*Option: LETTER
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 4109
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(4800, 6350)
+				*PrintableOrigin: PAIR(140, 100)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz6;stm0;exit;<1B>*p0x0Y<1B>*c0t5765x7680Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(4810, 6290)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 6481)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz6;stm0;exit;<1B>*p0x0Y<1B>*c0t7632x5880Y"
+				}
+			}
+		}
+	}
+	*Option: LEGAL
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 5230
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(4800, 8130)
+				*PrintableOrigin: PAIR(140, 120)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz7;stm0;exit;<1B>*p0x0Y<1B>*c0t5765x9840Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(4800, 8100)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 8281)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz7;stm0;exit;<1B>*p0x0Y<1B>*c0t9792x5880Y"
+				}
+			}
+		}
+	}
+	*Option: A4
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 4249
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(4662, 6764)
+				*PrintableOrigin: PAIR(150, 100)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz8;stm0;exit;<1B>*p0x0Y<1B>*c0t5616x8182Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(4662, 6714)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 6895)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz8;stm0;exit;<1B>*p0x0Y<1B>*c0t8138x5717Y"
+				}
+			}
+		}
+	}
+	*Option: B5
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 3198
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(4002, 5772)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz9;stm0;exit;<1B>*p0x0Y<1B>*c0t4892x7040Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(4002, 5772)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 5953)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz9;stm0;exit;<1B>*p0x0Y<1B>*c0t7030x4930Y"
+				}
+			}
+		}
+	}
+	*Option: A5
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 2125
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(3198, 4662)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz13;stm0;exit;<1B>*p0x0Y<1B>*c0t3835x5736Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(3198, 4662)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 4843)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz13;stm0;exit;<1B>*p0x0Y<1B>*c0t5664x3955Y"
+				}
+			}
+		}
+	}
+	*Option: A6
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 2125
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(2180, 3198)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz14;stm0;exit;<1B>*p0x0Y<1B>*c0t2616x3979Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(2180, 3198)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 3379)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz14;stm0;exit;<1B>*p0x0Y<1B>*c0t3907x2736Y"
+				}
+			}
+		}
+	}
+	*Option: B6_JIS
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 3198
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(2724, 4002)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz15;stm0;exit;<1B>*p0x0Y<1B>*c0t3353x4885Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(2724, 4002)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 4183)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz15;stm0;exit;<1B>*p0x0Y<1B>*c0t4896x3353Y"
+				}
+			}
+		}
+	}
+	*Option: ENV_9
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 4109
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(2028, 5028)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz16;stm0;exit;<1B>*p0x0Y<1B>*c0t2510.40x6110.40Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(2028, 5028)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 5209)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz16;stm0;exit;<1B>*p0x0Y<1B>*c0t6110.40x2510.40Y"
+				}
+			}
+		}
+	}
+	*Option: ENV_PERSONAL	*% Envelope #6
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 4109
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(1878, 3600)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz17;stm0;exit;<1B>*p0x0Y<1B>*c0t2335x4404Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(1878, 3600)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 3781)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz17;stm0;exit;<1B>*p0x0Y<1B>*c0t4404x2335Y"
+				}
+			}
+		}
+	}
+	*Option: ENV_B5			*% ISO B5
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 3198
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(3850, 5650)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz18;stm0;exit;<1B>*p0x0Y<1B>*c0t4651.20x6844.80Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(3850, 5600)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 5800)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz18;stm0;exit;<1B>*p0x0Y<1B>*c0t6847.20x4746.40Y"
+				}
+			}
+		}
+	}
+	*Option: Oficio2
+	{
+		*rcNameID: 404
+		*PageDimensions: PAIR(5100, 7800)
+		*PageProtectMem: 5230
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(4800, 7500)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(143, 95)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz33;stm0;exit;<1B>*p0x0Y<1B>*c0t5836x9076Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(4800, 7500)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(95, 7681)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz33;stm0;exit;<1B>*p0x0Y<1B>*c0t9076x5836Y"
+				}
+			}
+		}
+	}
+	*Option: PRC16K *% 16K  197 x 273mm
+	{
+		*rcNameID: 406
+		*PageDimensions: PAIR(4650, 6450)
+		*PageProtectMem: 9350
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(4350, 6150)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(150, 100)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz40;stm0;exit;<1B>*p0x0Y<1B>*c0t5304x7456Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(4350, 6150)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(100, 6300)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz40;stm0;exit;<1B>*p0x0Y<1B>*c0t7456x5304Y"
+				}
+			}
+		}
+	}
+	*Option: Foolscap	*% Mexican Oficio
+	{
+		*rcNameID: 415
+		*PageDimensions: PAIR(5102, 8032)
+		*PageProtectMem: 2054
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(4866, 7796)
+				*PrintableOrigin: PAIR(118, 118)
+				*CursorOrigin: PAIR(118, 118)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd:"!R!spsz42;stm0;exit;<1B>*p0x0Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(4866, 7796)
+				*PrintableOrigin: PAIR(118, 118)
+				*CursorOrigin: PAIR(118, 7914)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd:"!R!spsz42;stm0;exit;<1B>*p0x0Y"
+				}
+			}
+		}
+	}
+	*Option: STATEMENT
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 2054
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(2990, 4800)
+				*PrintableOrigin: PAIR(150, 150)
+				*CursorOrigin: PAIR(150, 90)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz50;stm0;exit;<1B>*p0x0Y<1B>*c0t3676x5832Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(3080, 4860)
+				*PrintableOrigin: PAIR(100, 120)
+				*CursorOrigin: PAIR(100, 4980)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz50;stm0;exit;<1B>*p0x0Y<1B>*c0t5852x3674Y"
+				}
+			}
+		}
+	}
+	*Option: FOLIO
+	{
+		*rcNameID: =RCID_DMPAPER_SYSTEM_NAME
+		*PageProtectMem: 2054
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*PrintableArea: PAIR(4726, 7560)
+				*PrintableOrigin: PAIR(187, 120)
+				*CursorOrigin: PAIR(187, 120)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz51;stm0;exit;<1B>*p0x0Y<1B>*c0t5668x9072Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*PrintableArea: PAIR(4726, 7560)
+				*PrintableOrigin: PAIR(187, 120)
+				*CursorOrigin: PAIR(187, 7680)
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!spsz51;stm0;exit;<1B>*p0x0Y<1B>*c0t9072x5668Y"
+				}
+			}
+		}
+	}
+	*Option: CUSTOMSIZE
+	{
+		*rcNameID: =USER_DEFINED_SIZE_DISPLAY
+		*MinSize: PAIR(1650, 3492) *% (2.75in, 5.82in)
+		*MaxSize: PAIR(5100, 8400) *% LEGAL
+		*MaxPrintableWidth: 5100
+		*MinLeftMargin: 50
+		*CenterPrintable?: FALSE
+		*PageProtectMem: 1692
+		*switch: Orientation
+		{
+			*case: PORTRAIT
+			{
+				*CustPrintableSizeX:%d{PhysPaperWidth-300}
+				*CustPrintableSizeY:%d{PhysPaperLength-300}
+				*CustPrintableOriginX:%d{150}
+				*CustPrintableOriginY:%d{150}
+				*CustCursorOriginX:%d{150}
+				*CustCursorOriginY:%d{150}
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!SCSZ"%f{PhysPaperWidth/6}","%f{PhysPaperLength/6}
++ ",I;EXIT;!R!PSRC100;SPSZ19;STM0;EXIT;<1B>*p0x0Y<1B>*c0t" %d{((PhysPaperWidth)*6/5)}"x"
++ %d{((PhysPaperLength)*6/5)}"Y"
+				}
+			}
+			*case: LANDSCAPE_CC90
+			{
+				*CustPrintableSizeX:%d{PhysPaperWidth-300}
+				*CustPrintableSizeY:%d{PhysPaperLength-300}
+				*CustPrintableOriginX:%d{150}
+				*CustPrintableOriginY:%d{150}
+				*CustCursorOriginX:%d{100}
+				*CustCursorOriginY:%d{PhysPaperLength-100}
+				*Command: CmdSelect
+				{
+					*Order: DOC_SETUP.5
+					*Cmd: "!R!SCSZ"%f{PhysPaperWidth/6}","%f{PhysPaperLength/6}
++ ",I;EXIT;!R!PSRC100;SPSZ19;STM0;EXIT;<1B>*p0x0Y<1B>*c0t" %d{((PhysPaperWidth)*6/5)}"x"
++ %d{((PhysPaperLength)*6/5)}"Y"
+				}
+			}
+		}
+	}
+}
+
+*%*********************************************************************************
+*%                                   EcoPrint                                     *
+*%*********************************************************************************
+*Feature: EcoPrint
+{
+	*rcNameID: 1050
+	*DefaultOption: Off
+	*Option: Off
+	{
+		*rcNameID: =OFF_DISPLAY
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.2
+			*Cmd: "@PJL SET ECOPRINT=OFF<0D0A>"
+		}
+	}
+	*Option: On
+	{
+		*rcNameID: =ON_DISPLAY
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.2
+			*Cmd: "@PJL SET ECOPRINT=ON<0D0A>"
+		}
+	}
+}
+*%*********************************************************************************
+*%                             Kyocera Image Refinement                           *
+*%*********************************************************************************
+*Feature: KIR
+{
+	*rcNameID: 1000
+	*DefaultOption: On
+	*Option: Off
+	{
+		*rcNameID: =OFF_DISPLAY
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.41
+			*Cmd: "!R!sir0;exit;"
+		}
+	}
+	*Option: On
+	{
+		*rcNameID: =ON_DISPLAY
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.41
+			*Cmd: "!R!sir2;exit;"
+		}
+	}
+}
+
+*%******************************************************************************
+*%	                              Print Density                                *
+*%******************************************************************************
+*Feature: PrintDensity
+{
+	*rcNameID: 1150
+	*DefaultOption: Medium
+	*Option: Light
+	{
+		*rcNameID: 1152
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.9
+			*Cmd: "@PJL SET DENSITY=1<0A>"
+		}
+	}
+	*Option: Medium
+	{
+		*rcNameID: 1153
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.9
+			*Cmd: "@PJL SET DENSITY=3<0A>"
+		}
+	}
+	*Option: Dark
+	{
+		*rcNameID: 1151
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.9
+			*Cmd: "@PJL SET DENSITY=5<0A>"
+		}
+	}
+}
+
+*%******************************************************************************
+*%                                 Halftoning                                  *
+*%******************************************************************************
+*Feature: Halftone
+{
+	*rcNameID: =HALFTONING_DISPLAY
+	*DefaultOption: HT_PATSIZE_AUTO
+	*Option: HT_PATSIZE_AUTO
+	{
+		*rcNameID: =HT_AUTO_SELECT_DISPLAY
+	}
+	*Option: HT_PATSIZE_6x6_M
+	{
+		*rcNameID: =HT_DITHER6X6_DISPLAY
+	}
+	*Option: HT_PATSIZE_8x8_M
+	{
+		*rcNameID: =HT_DITHER8X8_DISPLAY
+	}
+}
+*%*********************************************************************************
+*%                               Job Accounting ID                                *
+*%*********************************************************************************
+*Feature: JobAccountID
+{
+	*rcNameID: 1450
+	*DefaultOption: Off
+	*Option: Off
+	{
+		*rcNameID: =OFF_DISPLAY
+	}
+	*Option: Option0
+	{
+		*Name: "00000000"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000000<220A>"
+		}
+	}
+	*Option: Option1
+	{
+		*Name: "00000001"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000001<220A>"
+		}
+	}
+	*Option: Option2
+	{
+		*Name: "00000002"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000002<220A>"
+		}
+	}
+	*Option: Option3
+	{
+		*Name: "00000003"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000003<220A>"
+		}
+	}
+	*Option: Option4
+	{
+		*Name: "00000004"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000004<220A>"
+		}
+	}
+	*Option: Option5
+	{
+		*Name: "00000005"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000005<220A>"
+		}
+	}
+	*Option: Option6
+	{
+		*Name: "00000006"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000006<220A>"
+		}
+	}
+	*Option: Option7
+	{
+		*Name: "00000007"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000007<220A>"
+		}
+	}
+	*Option: Option8
+	{
+		*Name: "00000008"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000008<220A>"
+		}
+	}
+	*Option: Option9
+	{
+		*Name: "00000009"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000009<220A>"
+		}
+	}
+	*Option: Option10
+	{
+		*Name: "00000010"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000010<220A>"
+		}
+	}
+	*Option: Option11
+	{
+		*Name: "00000011"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000011<220A>"
+		}
+	}
+	*Option: Option12
+	{
+		*Name: "00000012"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000012<220A>"
+		}
+	}
+	*Option: Option13
+	{
+		*Name: "00000013"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000013<220A>"
+		}
+	}
+	*Option: Option14
+	{
+		*Name: "00000014"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000014<220A>"
+		}
+	}
+	*Option: Option15
+	{
+		*Name: "00000015"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000015<220A>"
+		}
+	}
+	*Option: Option16
+	{
+		*Name: "00000016"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000016<220A>"
+		}
+	}
+	*Option: Option17
+	{
+		*Name: "00000017"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000017<220A>"
+		}
+	}
+	*Option: Option18
+	{
+		*Name: "00000018"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000018<220A>"
+		}
+	}
+	*Option: Option19
+	{
+		*Name: "00000019"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000019<220A>"
+		}
+	}
+	*Option: Option20
+	{
+		*Name: "00000020"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000020<220A>"
+		}
+	}
+	*Option: Option21
+	{
+		*Name: "00000021"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000021<220A>"
+		}
+	}
+	*Option: Option22
+	{
+		*Name: "00000022"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000022<220A>"
+		}
+	}
+	*Option: Option23
+	{
+		*Name: "00000023"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000023<220A>"
+		}
+	}
+	*Option: Option24
+	{
+		*Name: "00000024"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000024<220A>"
+		}
+	}
+	*Option: Option25
+	{
+		*Name: "00000025"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000025<220A>"
+		}
+	}
+	*Option: Option26
+	{
+		*Name: "00000026"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000026<220A>"
+		}
+	}
+	*Option: Option27
+	{
+		*Name: "00000027"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000027<220A>"
+		}
+	}
+	*Option: Option28
+	{
+		*Name: "00000028"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000028<220A>"
+		}
+	}
+	*Option: Option29
+	{
+		*Name: "00000029"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000029<220A>"
+		}
+	}
+	*Option: Option30
+	{
+		*Name: "00000030"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.5
+			*Cmd: "@PJL SET KJOBMANAGERCODE=<22>00000030<220A>"
+		}
+	}
+}
+
+*%*********************************************************************************
+*%                                 Job Retention                                  *
+*%*********************************************************************************
+*Feature: JobRetention
+{
+	*rcNameID: 1505
+	*DefaultOption: Off
+	*Option: Off
+	{
+		*rcNameID: =OFF_DISPLAY
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.22
+			*Cmd: "@PJL SET HOLD=OFF<0A>"
+		}
+		*Command: CmdCopies
+		{
+			*Order: DOC_SETUP.8
+			*Cmd: "<1B>&l" %d[1,999]{NumOfCopies}"X"
+		}
+	}
+	*Option: Collate
+	{
+		*rcNameID: 1504
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.22
+			*Cmd: "@PJL SET HOLD=OFF<0A>@PJL SET QTY=" %d[1,999]{NumOfCopies}"<0A>"
+		}
+		*Command: CmdCopies
+		{
+			*Order: DOC_SETUP.8
+			*Cmd: "<1B>&l1X"
+		}
+	}
+	*Option: QuickCopy
+	{
+		*rcNameID: 1506
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.22
+			*Cmd: "@PJL SET HOLD=ON<0A>@PJL SET QTY=" %d[1,999]{NumOfCopies}"<0A>"
+		}
+		*Command: CmdCopies
+		{
+			*Order: DOC_SETUP.8
+			*Cmd: "<1B>&l1X"
+		}
+	}
+	*Option: ProofHold
+	{
+		*rcNameID: 1507
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.22
+			*Cmd: "@PJL SET HOLD=PROOF<0A>@PJL SET QTY=" %d[1,999]{NumOfCopies}"<0A>"
+		}
+		*Command: CmdCopies
+		{
+			*Order: DOC_SETUP.8
+			*Cmd: "<1B>&l1X"
+		}
+	}
+	*Option: StoreJob
+	{
+		*rcNameID: 1508
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.22
+			*Cmd: "@PJL SET HOLD=STORE<0A>@PJL SET QTY=" %d[1,999]{NumOfCopies}"<0A>"
+		}
+		*Command: CmdCopies
+		{
+			*Order: DOC_SETUP.8
+			*Cmd: "<1B>&l1X"
+		}
+	}
+}
+
+*%*********************************************************************************
+*%                             Job Retention User ID                              *
+*%*********************************************************************************
+*Feature: JobRetentionUserID
+{
+	*rcNameID: 1509
+	*DefaultOption: Option1
+	*Option: Option1
+	{
+		*Name: "1"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>1<22><0A>"
+		}
+	}
+	*Option: Option2
+	{
+		*Name: "2"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>2<22><0A>"
+		}
+	}
+	*Option: Option3
+	{
+		*Name: "3"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>3<22><0A>"
+		}
+	}
+	*Option: Option4
+	{
+		*Name: "4"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>4<22><0A>"
+		}
+	}
+	*Option: Option5
+	{
+		*Name: "5"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>5<22><0A>"
+		}
+	}
+	*Option: Option6
+	{
+		*Name: "6"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>6<22><0A>"
+		}
+	}
+	*Option: Option7
+	{
+		*Name: "7"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>7<22><0A>"
+		}
+	}
+	*Option: Option8
+	{
+		*Name: "8"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>8<22><0A>"
+		}
+	}
+	*Option: Option9
+	{
+		*Name: "9"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>9<22><0A>"
+		}
+	}
+	*Option: Option10
+	{
+		*Name: "10"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>10<22><0A>"
+		}
+	}
+	*Option: Option11
+	{
+		*Name: "11"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>11<22><0A>"
+		}
+	}
+	*Option: Option12
+	{
+		*Name: "12"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>12<22><0A>"
+		}
+	}
+	*Option: Option13
+	{
+		*Name: "13"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>13<22><0A>"
+		}
+	}
+	*Option: Option14
+	{
+		*Name: "14"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>14<22><0A>"
+		}
+	}
+	*Option: Option15
+	{
+		*Name: "15"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>15<22><0A>"
+		}
+	}
+	*Option: Option16
+	{
+		*Name: "16"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>16<22><0A>"
+		}
+	}
+	*Option: Option17
+	{
+		*Name: "17"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>17<22><0A>"
+		}
+	}
+	*Option: Option18
+	{
+		*Name: "18"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>18<22><0A>"
+		}
+	}
+	*Option: Option19
+	{
+		*Name: "19"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>19<22><0A>"
+		}
+	}
+	*Option: Option20
+	{
+		*Name: "20"
+		*Command: CmdSelect
+		{
+			*Order: JOB_SETUP.23
+			*Cmd: "@PJL SET USERNAME=<22>20<22><0A>"
+		}
+	}
+}
+
+*%*********************************************************************************
+*%                                  Paper Feeder                                  *
+*%*********************************************************************************
+*Feature: CassetteTwo
+{
+	*FeatureType: PRINTER_PROPERTY
+	*rcNameID: 2502
+	*DefaultOption: False
+	*Option: False
+	{
+		*rcNameID: 600
+		*Constraints: InputBin.Cassette2
+		*Constraints: LIST(CassetteThree.True,CassetteFour.True,CassetteFive.True)
+	}
+	*Option: True
+	{
+		*rcNameID: 601
+	}
+}
+*Feature: CassetteThree
+{
+	*rcNameID: 2503
+	*FeatureType: PRINTER_PROPERTY
+	*DefaultOption: False
+	*Option: False
+	{
+		*rcNameID: 600
+		*Constraints: InputBin.Cassette3
+		*Constraints: LIST(CassetteFour.True,CassetteFive.True)
+	}
+	*Option: True
+	{
+		*rcNameID: 601
+	}
+}
+
+*%*********************************************************************************
+*%                                 Optional Disk                                  *
+*%*********************************************************************************
+*Feature: RAMDisk
+{
+	*FeatureType: PRINTER_PROPERTY
+	*rcNameID: 2501
+	*DefaultOption: True
+	*Option: False
+	{
+		*rcNameID: 600		
+	}
+	*Option: True
+	{
+		*rcNameID: 601
+	}
+}
+*Feature: SDCard
+{
+	*rcNameID: 2539
+	*FeatureType: PRINTER_PROPERTY
+	*DefaultOption: False
+	*Option: False
+	{
+		*rcNameID: 600
+	}
+	*Option: True
+	{
+		*rcNameID: 601
+	}
+}
+
+*% Optional Disk vs. Job Retention constraints
+*InvalidCombination: LIST(RAMDisk.False,SDCard.False,JobRetention.Collate)
+*InvalidCombination: LIST(RAMDisk.False,SDCard.False,JobRetention.QuickCopy)
+*InvalidCombination: LIST(RAMDisk.False,SDCard.False,JobRetention.ProofHold)
+*InvalidCombination: LIST(RAMDisk.False,SDCard.False,JobRetention.StoreJob)
+*InvalidCombination: LIST(RAMDisk.True,JobRetention.QuickCopy)
+*InvalidCombination: LIST(RAMDisk.True,JobRetention.StoreJob)
+*InvalidCombination: LIST(RAMDisk.True)
+
+*%*********************************************************************************
+*%                                Command Blocks                                  *
+*%*********************************************************************************
+*Command: CmdStartJob
+{
+	*Order: JOB_SETUP.1
+	*Cmd: "!R!SEM6;EXIT;<1B>%%-12345X@PJL COMMENT Version 1.0<0D0A>"
+}
+*Command: CmdStartPage
+{
+	*Order: PAGE_SETUP.1
+	*Cmd: "<1B>*b0M<0D>"
+}
+*Command: CmdEndJob
+{
+	*Order: JOB_FINISH.1
+	*Cmd: "<1B>E<1B>%%-12345X"
+}
+*Command: CmdCopies
+{
+	*Order: DOC_SETUP.13
+	*Cmd: "<1B>&l" %d[1,999]{NumOfCopies}"X"
+}
+
+*%*********************************************************************************
+*%                               Root Attributes                                  *
+*%*********************************************************************************
+*RotateCoordinate?: TRUE
+*RotateRaster?: TRUE
+*RotateFont?: TRUE
+*TTFSEnabled?: TRUE
+*TextCaps: LIST(TC_CR_90,TC_UA_ABLE)
+*CursorXAfterCR: AT_PRINTABLE_X_ORIGIN
+*BadCursorMoveInGrxMode: LIST(X_PORTRAIT,Y_LANDSCAPE)
+*XMoveThreshold: 0
+*YMoveThreshold: 0
+*XMoveUnit: 600
+*YMoveUnit: 600
+*Command: CmdXMoveAbsolute { *Cmd : "<1B>*p" %d{DestX}"X" }
+*Command: CmdXMoveRelRight { *Cmd : "<1B>*p+" %d[0,4800]{max_repeat(DestXRel )}"X" }
+*Command: CmdXMoveRelLeft { *Cmd : "<1B>*p-" %d[0,4800]{max_repeat(DestXRel )}"X" }
+*Command: CmdYMoveAbsolute { *Cmd : "<1B>*p" %d{DestY}"Y" }
+*Command: CmdYMoveRelDown { *Cmd : "<1B>*p+" %d{DestYRel}"Y" }
+*Command: CmdYMoveRelUp { *Cmd : "<1B>*p-" %d{DestYRel}"Y" }
+*Command: CmdCR { *Cmd : "<0D>" }
+*Command: CmdLF { *Cmd : "<0A>" }
+*Command: CmdFF { *Cmd : "<0C>" }
+*Command: CmdBackSpace { *Cmd : "<08>" }
+*Command: CmdUniDirectionOn { *Cmd : "<00>" }
+*Command: CmdUniDirectionOff { *Cmd : "<00>" }
+*Command: CmdPushCursor { *Cmd : "<1B>&f0S" }
+*Command: CmdPopCursor { *Cmd : "<1B>&f1S" }
+*Command: CmdSetSimpleRotation { *Cmd : "<1B>&a" %d{PrintDirInCCDegrees}"P" }
+*EjectPageWithFF?: TRUE
+*Command: CmdEnableDRC { *Cmd : "<1B>*b3M" }
+*Command: CmdEnableTIFF4 { *Cmd : "<1B>*b2M" }
+*Command: CmdDisableCompression { *Cmd : "<1B>*b0M" }
+*OutputDataFormat: H_BYTE
+*OptimizeLeftBound?: TRUE
+*CursorXAfterSendBlockData: AT_GRXDATA_ORIGIN
+*CursorYAfterSendBlockData: AUTO_INCREMENT
+*DefaultFont: RESDLL.KyoFonts2.56
+*DefaultCTT: 0
+*CharPosition: BASELINE
+*DeviceFonts: LIST(RESDLL.KyoFonts2.1,RESDLL.KyoFonts2.2,RESDLL.KyoFonts2.3,
++   RESDLL.KyoFonts2.4,RESDLL.KyoFonts2.5,RESDLL.KyoFonts2.6,RESDLL.KyoFonts2.7,
++   RESDLL.KyoFonts2.8,RESDLL.KyoFonts2.9,RESDLL.KyoFonts2.10,
++   RESDLL.KyoFonts2.11,RESDLL.KyoFonts2.12,RESDLL.KyoFonts2.13,
++   RESDLL.KyoFonts2.14,RESDLL.KyoFonts2.15,RESDLL.KyoFonts2.16,
++   RESDLL.KyoFonts2.17,RESDLL.KyoFonts2.18,RESDLL.KyoFonts2.19,
++   RESDLL.KyoFonts2.20,RESDLL.KyoFonts2.21,RESDLL.KyoFonts2.22,
++   RESDLL.KyoFonts2.23,RESDLL.KyoFonts2.24,RESDLL.KyoFonts2.25,
++   RESDLL.KyoFonts2.26,RESDLL.KyoFonts2.27,RESDLL.KyoFonts2.28,
++   RESDLL.KyoFonts2.29,RESDLL.KyoFonts2.30,RESDLL.KyoFonts2.31,
++   RESDLL.KyoFonts2.32,RESDLL.KyoFonts2.33,RESDLL.KyoFonts2.34,
++   RESDLL.KyoFonts2.35,RESDLL.KyoFonts2.36,RESDLL.KyoFonts2.37,
++   RESDLL.KyoFonts2.38,RESDLL.KyoFonts2.39,RESDLL.KyoFonts2.40,
++   RESDLL.KyoFonts2.41,RESDLL.KyoFonts2.42,RESDLL.KyoFonts2.43,
++   RESDLL.KyoFonts2.44,RESDLL.KyoFonts2.45,RESDLL.KyoFonts2.46,
++   RESDLL.KyoFonts2.47,RESDLL.KyoFonts2.48,RESDLL.KyoFonts2.49,
++   RESDLL.KyoFonts2.50,RESDLL.KyoFonts2.51,RESDLL.KyoFonts2.52,
++   RESDLL.KyoFonts2.53,RESDLL.KyoFonts2.54,RESDLL.KyoFonts2.55,
++   RESDLL.KyoFonts2.56,RESDLL.KyoFonts2.57,RESDLL.KyoFonts2.58,
++   RESDLL.KyoFonts2.59,RESDLL.KyoFonts2.60,RESDLL.KyoFonts2.61,
++   RESDLL.KyoFonts2.62,RESDLL.KyoFonts2.63,RESDLL.KyoFonts2.64,
++   RESDLL.KyoFonts2.65,RESDLL.KyoFonts2.66,RESDLL.KyoFonts2.67,
++   RESDLL.KyoFonts2.68,RESDLL.KyoFonts2.69,RESDLL.KyoFonts2.70,
++   RESDLL.KyoFonts2.71,RESDLL.KyoFonts2.72,RESDLL.KyoFonts2.73,
++   RESDLL.KyoFonts2.74,RESDLL.KyoFonts2.75,RESDLL.KyoFonts2.76,
++   RESDLL.KyoFonts2.77,RESDLL.KyoFonts2.78,RESDLL.KyoFonts2.79,
++   RESDLL.KyoFonts2.80,RESDLL.KyoFonts2.81,RESDLL.KyoFonts2.82)
+*MinFontID: 16534
+*MaxFontID: 32768
+*MinGlyphID: 34
+
+*FontFormat: HPPCL_RES
+*Command: CmdSetFontID { *Cmd : "<1B>*c" %d{NextFontID}"D" }
+*Command: CmdSelectFontID { *Cmd : "<1B>(" %d{CurrentFontID}"X" }
+*Command: CmdSetCharCode { *Cmd : "<1B>*c" %d{NextGlyph}"E" }
+*Command: CmdUnderlineOn { *Cmd : "<1B>&dD" }
+*Command: CmdUnderlineOff { *Cmd : "<1B>&d@" }
+*Command: CmdWhiteTextOn { *Cmd : "<1B>*v1o1T" }
+*Command: CmdWhiteTextOff { *Cmd : "<1B>*v0o0T" }
+*MinGrayFill: 1
+*MaxGrayFill: 100
+*Command: CmdSetRectWidth { *Cmd : "<1B>*c" %d{RectXSize}"A" }
+*Command: CmdSetRectHeight { *Cmd : "<1B>*c" %d{RectYSize}"B" }
+*Command: CmdRectGrayFill { *Cmd : "<1B>*c" %d{GrayPercentage}"g2P" }
+*Command: CmdRectWhiteFill { *Cmd : "<1B>*c1P" }

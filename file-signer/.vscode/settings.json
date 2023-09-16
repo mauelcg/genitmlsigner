@@ -1,0 +1,5 @@
+{
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": false,
+    "python.pythonPath": "C:\\Users\\DVD Build Windows\\AppData\\Local\\Programs\\Python\\Python36\\python.exe"
+}
